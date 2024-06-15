@@ -1,2 +1,0 @@
-# CoursesProject
-Ejemplo de tutorias
