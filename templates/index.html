@@ -16,12 +16,6 @@
         <p>El numero es positivo</p>
     {% endif %}
 
-    <ul>
-        {% for empleado in empleados %}
-            <li>{{ empleado.nombre }} || {{ empleado.edad }} || {{ empleado.departamento }}</li>
-        {% endfor %}
-    </ul>
-
     <form action="/login" method="post">
         <input type="text" placeholder="Nombre" name="nombre">
         <button type="submit">Enviar</button>
