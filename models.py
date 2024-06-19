@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+
 
 db = SQLAlchemy()
 
@@ -26,4 +28,27 @@ class Usuario(db.Model):
     
     def get_id(self):
         return str(self.id)
-    
+
+
+class Persona(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    birth = db.Column(db.Integer, nullable=False)
+    directors = db.relationship('Director', backref='persona', lazy='dynamic')
+    actors = db.relationship('Actor', backref='persona', lazy='dynamic')
+
+class Director(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
+
+class Actor(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
+
+class Movie(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    directors = db.relationship('Director', backref='movie', lazy='dynamic')
+    actors = db.relationship('Actor', backref='movie', lazy='dynamic')
