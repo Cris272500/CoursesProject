@@ -9,6 +9,7 @@ class Usuario(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
     email_user = db.Column(db.String(60), unique=True, nullable=False)
+    rol = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
         return f"User: {self.username} Email: {self.email_user}"
@@ -29,26 +30,26 @@ class Usuario(db.Model):
     def get_id(self):
         return str(self.id)
 
+categorias_curso = db.Table('categorias_curso', 
+    db.Column('curso_id', db.Integer, db.ForeignKey('curso.id'), primary_key=True),
+    db.Column('categoria_id', db.Integer, db.ForeignKey('categoria.id'), primary_key=True)
+    )
 
-class Persona(db.Model):
+class Curso(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    birth = db.Column(db.Integer, nullable=False)
-    directors = db.relationship('Director', backref='persona', lazy='dynamic')
-    actors = db.relationship('Actor', backref='persona', lazy='dynamic')
+    title = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.Text)
+    categorias = db.relationship('Categoria', secondary=categorias_curso,
+                                 backref=db.backref('cursos', lazy='dynamic'))
 
-class Director(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-    person_id = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
+    def __repr__(self):
+        return f"Curso: {self.title} // Descrpcion: {self.description}"
 
-class Actor(db.Model):
+class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-    person_id = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
+    name = db.Column(db.Text, unique=True, nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
-class Movie(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(100), nullable=False)
-    directors = db.relationship('Director', backref='movie', lazy='dynamic')
-    actors = db.relationship('Actor', backref='movie', lazy='dynamic')
+    def __repr__(self):
+        return f"Categoria: {self.name}"
+

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
-from models import db, Usuario, Persona, Director, Actor, Movie
+from models import db, Usuario
 from config import Config
 
 app = Flask(__name__)

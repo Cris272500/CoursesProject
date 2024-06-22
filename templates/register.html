@@ -18,6 +18,13 @@
             <label for="exampleInputPassword1" class="form-label">Contraseña</label>
             <input name="password" type="password" class="form-control" id="exampleInputPassword1">
         </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Rol</label>
+            <select name="rol" id="cbo_rol" class="form-control">
+                <option value="estudiante">Estudiante</option>
+                <option value="tutor">Profesor</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 {% endblock %}

@@ -83,6 +83,7 @@ def register():
         username = request.form.get("username")
         email = request.form.get("email")
         password = request.form.get("password")
+        rol = request.form.get("rol")
 
         print(f"{username, password}")
         # si los campos estan vacios
@@ -97,7 +98,7 @@ def register():
             
         try: 
             # si el usuario es nuevo
-            new_user = Usuario(username=username, password_hash=password_hash, email_user=email)
+            new_user = Usuario(username=username, password_hash=password_hash, email_user=email, rol=rol)
 
             # guardamos a la base de datos con db
             db.session.add(new_user)
@@ -118,5 +119,11 @@ def register():
 def about():
     return render_template("about.html")
 
+@app.route('/agregar', methods=['POST', 'GET'])
+def agregar():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template("crear_curso.html")
 if __name__ == '__main__':
     app.run(debug=True)
