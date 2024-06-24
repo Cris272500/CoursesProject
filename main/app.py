@@ -114,6 +114,36 @@ def register():
     else:
         return render_template("register.html")
 
+# READ, UPDATE DELETE
+@app.route('/users')
+def mostrar_usuarios():
+    users = Usuario.query.all()
+    print(f"Usuarios: {users}")
+    return render_template("users.html", users=users)
+
+@app.route('/user/<int:id>')
+def mostrar_usuario(id):
+    usuario = Usuario.query.get(id)
+    return render_template("usuario.html", usuario=usuario)
+
+@app.route('/eliminar', methods=['GET', 'POST'])
+def eliminar_usuario():
+    if request.method == "POST":
+        username = request.form.get("username")
+        usuario = Usuario.query.filter_by(username=username).first()
+
+        if usuario:
+            db.session.delete(usuario)
+            db.session.commit()
+            flash("Usuario eliminado", "success")
+            return redirect("/")
+        else:
+            db.session.rollback()
+            flash("El usuario no existe", "danger")
+            return redirect("/eliminar")
+    else:
+        return render_template("eliminar_usuario.html")
+
 @app.route("/about")
 @login_required
 def about():

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Usuarios
+{% endblock %}
+
+{% block content %}
+
+    <ol>
+        {% for usuario in users %}
+
+            <li>{{ usuario.username }} || {{ usuario.email_user }} || {{ usuario.rol }}</li>
+
+        {% endfor %}
+    </ol>
+
+{% endblock %}
