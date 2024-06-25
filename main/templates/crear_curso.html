@@ -17,11 +17,11 @@
                     <h2 class="title">Crear un nuevo curso</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="/agregar">
                         <div class="form-row">
                             <div class="name">Titulo</div>
                             <div class="value">
-                                <input class="input--style-6" type="text" name="full_name">
+                                <input class="input--style-6" type="text" name="titulo">
                             </div>
                         </div>
                         
@@ -29,23 +29,21 @@
                             <div class="name">Contenido</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <textarea class="textarea--style-6" name="message" placeholder="Agrega una descripcion del curso"></textarea>
+                                    <textarea class="textarea--style-6" name="contenido" placeholder="Agrega una descripcion del curso"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="name">Categoria</div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Casilla de verificación por defecto
-                                </label> <br>
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Casilla de verificación por defecto 2
-                                </label>
-
-                            </div>
+                            {% for categoria in categorias %}
+                                <div class="form-check">
+                                    <input name="categoria" class="form-check-input" type="checkbox" value="{{ categoria.id }}" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        {{ categoria.name }}
+                                    </label>
+                                </div>
+                                <br>
+                            {% endfor %}
                         </div>
                         <div class="form-row">
                             <div class="name">Upload CV</div>
@@ -58,11 +56,12 @@
                                 <div class="label--desc">Upload your CV/Resume or any other relevant file. Max file size 50 MB</div>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <button class="btn btn--radius-2 btn--blue-2" type="submit">Send Application</button>
+                        </div>
                     </form>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn--radius-2 btn--blue-2" type="submit">Send Application</button>
-                </div>
+                
             </div>
         </div>
     </div>

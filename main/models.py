@@ -43,7 +43,7 @@ class Curso(db.Model):
                                  backref=db.backref('cursos', lazy='dynamic'))
 
     def __repr__(self):
-        return f"Curso: {self.title} // Descrpcion: {self.description}"
+        return f"Curso: {self.title}"
 
 class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

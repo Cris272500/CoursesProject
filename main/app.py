@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, flash, session
-from models import Usuario, db
+from models import Usuario, db, Categoria, categorias_curso, Curso
 # con eso importamos la password hasheada
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
@@ -26,6 +26,33 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
+
+# ruta para crear categorias (opcional)
+@app.route("/categorias", methods=['POST', 'GET'])
+@login_required
+def categorias():
+    if request.method == "POST":
+        nombre = request.form.get("nombre_categoria")
+        descripcion = request.form.get("descripcion")
+
+        if not nombre or not descripcion:
+            flash("Error, campos vacios", "danger")
+            return redirect("/categorias")
+        
+        try:
+            nueva_categoria = Categoria(name=nombre, description=descripcion)
+            db.session.add(nueva_categoria)
+            db.session.commit() # para guardar y aplicar los cambios
+        except IntegrityError:
+            db.session.rollback()
+            flash("La categoria existe", "danger")
+            return redirect("/categorias")
+        
+        flash("Categoria creada", "success")
+        return redirect("/")
+            
+    else:
+        return render_template("categorias.html")
 
 @app.route("/logout")
 @login_required
@@ -152,8 +179,44 @@ def about():
 @app.route('/agregar', methods=['POST', 'GET'])
 def agregar():
     if request.method == 'POST':
-        pass
+        titulo = request.form.get("titulo")
+        contenido = request.form.get("contenido")
+        categorias = request.form.getlist("categoria")
+
+        if not titulo or not contenido or not categorias:
+            flash("Campos vacios", "danger")
+            return redirect("/agregar")
+        
+        try:
+            nuevo_curso = Curso(title=titulo, description=contenido)
+            
+            for cat in categorias:
+                print(f"dato: {cat}")
+                categoria_id = Categoria.query.get(int(cat))
+                nuevo_curso.categorias.append(categoria_id)
+                print(f"Registro : {nuevo_curso.categorias}")
+            
+            db.session.add(nuevo_curso)
+            db.session.commit() # confirmar el registro
+        except Exception as e:
+            print(f"El error fue: {e}")
+            db.session.rollback()
+            flash("Hubo un error", "danger")
+            return redirect("/agregar")
+
+        #print(f"T: {titulo} Cont: {contenido} Cat: {categorias}")
+        
+        flash("Curso creado", "success")
+        return redirect("/")
     else:
-        return render_template("crear_curso.html")
+        categorias_list = Categoria.query.all()
+        print(f"{categorias_list}")
+        return render_template("crear_curso.html", categorias=categorias_list)
+
+@app.route("/cursos")
+def cursos():
+    cursos_list = Curso.query.all()
+    print(f"Cursos: {cursos_list.categorias}")
+    return render_template("cursos.html")
 if __name__ == '__main__':
     app.run(debug=True)
