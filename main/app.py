@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, jsonify
 from models import Usuario, db, Categoria, categorias_curso, Curso
 # con eso importamos la password hasheada
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -61,15 +61,20 @@ def logout():
     flash("Has cerrado la sesion", 'success')
     return redirect("/")
 
+@app.route("/cursos")
+@login_required
+def cursos():
+    # 1. Mostrar los datos con JSON
+    cursos = Curso.query.all()
+    cursos_data = []
+
+    cursos_data = [curso.serialize() for curso in cursos]
+    return jsonify(cursos_data),200
+
 @app.route("/") # esto es un decorador
 @login_required
 def index():
-    name = "Gabriel"
-    edad = 25
-
-    dinero = 200
-
-    return render_template("index.html", name=name, edad=edad, dinero=dinero)
+    return render_template("index.html")
 
 @app.route("/saludo/<nombre>")
 def saludo(nombre):
@@ -213,10 +218,5 @@ def agregar():
         print(f"{categorias_list}")
         return render_template("crear_curso.html", categorias=categorias_list)
 
-@app.route("/cursos")
-def cursos():
-    cursos_list = Curso.query.all()
-    print(f"Cursos: {cursos_list.categorias}")
-    return render_template("cursos.html")
 if __name__ == '__main__':
     app.run(debug=True)

@@ -5,19 +5,5 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Hola mundo</h1>
-    <h4>Tu nombre es: {{ name }}</h4>
-    <h5>Tu edad es: {{ edad }}</h5>
-    {% if dinero < 0 %}
-        <p>Cantidad invalida</p>
-    {% elif dinero == 0 %}
-        <p>El numero debe ser positivo</p>
-    {% else %}
-        <p>El numero es positivo</p>
-    {% endif %}
-
-    <form action="/login" method="post">
-        <input type="text" placeholder="Nombre" name="nombre">
-        <button type="submit">Enviar</button>
-    </form>
+    <h1>Esto es un index</h1>
 {% endblock %}

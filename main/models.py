@@ -41,6 +41,15 @@ class Curso(db.Model):
     description = db.Column(db.Text)
     categorias = db.relationship('Categoria', secondary=categorias_curso,
                                  backref=db.backref('cursos', lazy='dynamic'))
+    
+    # con esta funcion me permitira mostrar los datos en un json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'categorias': [categoria.serialize() for categoria in self.categorias]
+        }
 
     def __repr__(self):
         return f"Curso: {self.title}"
@@ -49,6 +58,14 @@ class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, unique=True, nullable=False)
     description = db.Column(db.Text, nullable=False)
+
+    # con esta funcion nos permitira mostrar los datos en formato json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description
+        }
 
     def __repr__(self):
         return f"Categoria: {self.name}"
