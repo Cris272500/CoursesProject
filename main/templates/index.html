@@ -6,4 +6,24 @@
 
 {% block content %}
     <h1>Esto es un index</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for curso in cursos %}
+            <div class="col">
+            <div class="card h-100">
+                <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top"
+                alt="Hollywood Sign on The Hill" />
+                <div class="card-body">
+                <h5 class="card-title">{{ curso.title }}</h5>
+                <p class="card-text">
+                    {{ curso.description }}
+                </p>
+                <!--Mostrar las categorias-->
+                {% for categoria in curso.categorias %}
+                    <span class="badge bg-primary">{{ categoria.name }}</span>
+                {% endfor %}
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

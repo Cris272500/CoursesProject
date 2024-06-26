@@ -74,7 +74,15 @@ def cursos():
 @app.route("/") # esto es un decorador
 @login_required
 def index():
-    return render_template("index.html")
+    # obtener todos los cursos
+
+    try:
+        cursos = Curso.query.all()
+        return render_template("index.html", cursos=cursos)
+    except:
+        flash("Hubo un error al cargar los cursos")
+        return "Error al obtener los cursos", 500
+
 
 @app.route("/saludo/<nombre>")
 def saludo(nombre):
