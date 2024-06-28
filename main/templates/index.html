@@ -26,4 +26,19 @@
             </div>
         {% endfor %}
     </div>
+    <h2>Tarjeta</h2>
+    <form id="cardForm" method="post">
+        <label for="">digite su numero de tarjeta</label>
+        <input type="text" required id="card_number" name="card_number">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="results">
+        <!--Es para mostrar si la peticion fue valida o invalida-->
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script type="module" src="{{ url_for('static', filename='card.js') }}"></script>
+
 {% endblock %}

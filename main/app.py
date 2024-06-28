@@ -8,6 +8,7 @@ from flask_session import Session
 from sqlalchemy.exc import IntegrityError
 # importaciones para login
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+import requests
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -54,6 +55,25 @@ def categorias():
     else:
         return render_template("categorias.html")
 
+@app.route("/validate_card", methods=['POST'])
+def validate_card():
+    # obtener el campo card_number
+    card_number = request.json.get("card_number")
+    print(f"La tarjeta fue: {card_number}")
+    url = f"https://bin-ip-checker.p.rapidapi.com/?bin={card_number}"
+    payload = f"{{\"bin\":\"{card_number}\"}}"
+    headers = {
+        'x-rapidapi-key': "804ceea84dmsh08cad729dcb3653p1083fejsnc57d70fadfe8",
+        'x-rapidapi-host': "bin-ip-checker.p.rapidapi.com",
+        'Content-Type': "application/json"
+    }
+    #response = requests.post(url, data=payload, headers=headers)
+    response = requests.get(url)
+    result = response.json()
+    
+    print(f"El resultado fue: {result}")
+    return jsonify(result)
+    
 @app.route("/logout")
 @login_required
 def logout():
