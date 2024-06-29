@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (data.success && data.BIN && data.BIN.country) {
                 const binInfo = data.BIN;
                 const pais = data.BIN.country.native;
+                const moneda = data.BIN.country.currency;
                 console.log(`Pais: ${pais}`);
 
                 resultDiv.innerHTML = `
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>Valid: ${binInfo.valid}</p>
                     <p>Tipo: ${binInfo.scheme}</p>
                     <p>Pais: ${pais}</p>
+                    <p>Moneda: ${moneda}</p>
                 `
             }
             // si no se hizo correctamente
