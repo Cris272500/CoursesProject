@@ -60,15 +60,19 @@ def validate_card():
     # obtener el campo card_number
     card_number = request.json.get("card_number")
     print(f"La tarjeta fue: {card_number}")
-    url = f"https://bin-ip-checker.p.rapidapi.com/?bin={card_number}"
-    payload = f"{{\"bin\":\"{card_number}\"}}"
+    bin_number = card_number[:6] 
+    print(f"BIN number: {bin_number}") # Obtener los primeros 6 dígitos
+    
+    url = "https://bin-ip-checker.p.rapidapi.com/"
+    payload = {"bin": bin_number}
     headers = {
         'x-rapidapi-key': "804ceea84dmsh08cad729dcb3653p1083fejsnc57d70fadfe8",
         'x-rapidapi-host': "bin-ip-checker.p.rapidapi.com",
         'Content-Type': "application/json"
     }
-    #response = requests.post(url, data=payload, headers=headers)
-    response = requests.get(url)
+    params = {"bin": bin_number}
+    
+    response = requests.post(url, json=payload, headers=headers, params=params)
     result = response.json()
     
     print(f"El resultado fue: {result}")

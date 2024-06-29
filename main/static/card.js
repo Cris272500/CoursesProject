@@ -30,13 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
             // mostrar resultados
             
             // si la peticion se hizo correctamente
-            if (data.success) {
+            if (data.success && data.BIN && data.BIN.country) {
                 const binInfo = data.BIN;
+                const pais = data.BIN.country.native;
+                console.log(`Pais: ${pais}`);
+
                 resultDiv.innerHTML = `
                     <h2>Detalles de la tarjeta</h2>
                     <p>Valid: ${binInfo.valid}</p>
                     <p>Tipo: ${binInfo.scheme}</p>
-                    <p>Pais: ${binInfo.country.country}</p>
+                    <p>Pais: ${pais}</p>
                 `
             }
             // si no se hizo correctamente
