@@ -5,5 +5,31 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Cursos disponibles</h1>
+    <h1>Cursos Encontrados</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% if cursos | length == 0 %}
+            <h2 style="color: red">No hay coincidencias</h2>
+        {% endif %}
+        {% for curso in cursos %}
+            <div class="col">
+            <div class="card h-100">
+                <a href="/cursos/{{ curso.id }}">
+                    <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top"
+                    alt="Hollywood Sign on The Hill" />
+                </a>
+                <div class="card-body">
+                <h5 class="card-title">{{ curso.title }}</h5>
+                <p class="card-text">
+                    {{ curso.description }}
+                </p>
+                <!--Mostrar las categorias-->
+                {% for categoria in curso.categorias %}
+                    <span class="badge bg-primary">{{ categoria.name }}</span>
+                {% endfor %}
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

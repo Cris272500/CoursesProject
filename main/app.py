@@ -77,7 +77,12 @@ def validate_card():
     
     print(f"El resultado fue: {result}")
     return jsonify(result)
-    
+
+@app.route("/search")
+def search():
+    query = request.args.get("q")
+    cursos_lista = Curso.query.filter(Curso.title.like(f'%{query}%')).all()
+    return render_template("cursos.html", cursos=cursos_lista)
 @app.route("/logout")
 @login_required
 def logout():
@@ -94,6 +99,13 @@ def cursos():
 
     cursos_data = [curso.serialize() for curso in cursos]
     return jsonify(cursos_data),200
+
+@app.route("/cursos/<int:id>")
+@login_required
+def curso_detalle(id):
+    curso_detail = Curso.query.get(id)
+    print(f"c: {curso_detail}")
+    return render_template("curso_detail.html", curso=curso_detail)
 
 @app.route("/") # esto es un decorador
 @login_required

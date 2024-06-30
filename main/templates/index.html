@@ -10,8 +10,10 @@
         {% for curso in cursos %}
             <div class="col">
             <div class="card h-100">
-                <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top"
-                alt="Hollywood Sign on The Hill" />
+                <a href="/cursos/{{ curso.id }}">
+                    <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top"
+                    alt="Hollywood Sign on The Hill" />
+                </a>
                 <div class="card-body">
                 <h5 class="card-title">{{ curso.title }}</h5>
                 <p class="card-text">
