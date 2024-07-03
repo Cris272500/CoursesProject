@@ -38,9 +38,11 @@ categorias_curso = db.Table('categorias_curso',
 class Curso(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80), nullable=False)
+    id_profesor = db.Column(db.Integer, db.ForeignKey('usuario.id', name='fk_curso_usuario'))
     description = db.Column(db.Text)
     categorias = db.relationship('Categoria', secondary=categorias_curso,
                                  backref=db.backref('cursos', lazy='dynamic'))
+    precio = db.Column(db.Float)
     
     # con esta funcion me permitira mostrar los datos en un json
     def serialize(self):
